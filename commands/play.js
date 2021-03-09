@@ -15,7 +15,7 @@ module.exports = {
 
     run: async function (client, message, args) {
         let channel = message.member.voice.channel;
-        if (!channel) return sendError("I'm sorry but you need to be in a voice channel to play music!", message.channel);
+        if (!channel) return sendError("Connect To Any Vc 1st!", message.channel);
 
         const permissions = channel.permissionsFor(message.client.user);
         if (!permissions.has("CONNECT")) return sendError("I cannot connect to your voice channel, make sure I have the proper permissions!", message.channel);
@@ -67,7 +67,7 @@ module.exports = {
         } else {
             try {
                 var searched = await yts.search(searchString);
-                if (searched.videos.length === 0) return sendError("Looks like i was unable to find the song on YouTube", message.channel);
+                if (searched.videos.length === 0) return sendError("NO SONGS FOUND", message.channel);
 
                 songInfo = searched.videos[0];
                 song = {
@@ -89,9 +89,9 @@ module.exports = {
         if (serverQueue) {
             serverQueue.songs.push(song);
             let thing = new MessageEmbed()
-                .setAuthor("Song has been added to queue", "https://raw.githubusercontent.com/SudhanPlayz/Discord-MusicBot/master/assets/Music.gif")
+                .setAuthor("Song has been added to queue", "")
                 .setThumbnail(song.img)
-                .setColor("YELLOW")
+                .setColor("GREEN")
                 .addField("Name", song.title, true)
                 .addField("Duration", song.duration, true)
                 .addField("Requested by", song.req.tag, true)
@@ -115,10 +115,10 @@ module.exports = {
             const queue = message.client.queue.get(message.guild.id);
             if (!song) {
                 sendError(
-                    "Leaving the voice channel because I think there are no songs in the queue. If you like the bot stay 24/7 in voice channel go to `commands/play.js` and remove the line number 61\n\nThank you for using my code! [GitHub](https://github.com/SudhanPlayz/Discord-MusicBot)",
+                    "Leaving The Vc Because It Looks like there are no songs in the queue For doing the Bot 24/7 in Vc use command +afk)",
                     message.channel
                 );
-                message.guild.me.voice.channel.leave(); //If you want your bot stay in vc 24/7 remove this line :D
+                message.guild.me.voice.channel.leave(); 
                 message.client.queue.delete(message.guild.id);
                 return;
             }
@@ -163,13 +163,12 @@ module.exports = {
 
             dispatcher.setVolumeLogarithmic(queue.volume / 100);
             let thing = new MessageEmbed()
-                .setAuthor("Started Playing Music!", "https://raw.githubusercontent.com/SudhanPlayz/Discord-MusicBot/master/assets/Music.gif")
+                .setAuthor("DONE!", "")
                 .setThumbnail(song.img)
-                .setColor("BLUE")
+                .setColor("GREEN")
                 .addField("Name", song.title, true)
                 .addField("Duration", song.duration, true)
                 .addField("Requested by", song.req.tag, true)
-                .setFooter(`Views: ${song.views} | ${song.ago}`);
             queue.textChannel.send(thing);
         };
 
